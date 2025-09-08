@@ -8,17 +8,39 @@ package p0005_longest_palindromic_substring;
 public class Solution {
     public String longestPalindrome(String s) {
         StringBuilder currentString = new StringBuilder();
-        String result = s.charAt(0) + "";
+        String result = "";
+        boolean flag = false;
 
-        for (int left = 0; left < s.length(); left++) {
-            currentString.append(s.charAt(left));
-            for (int right = left + 1; right < s.length(); right++) {
-                currentString.append(s.charAt(right));
-                if (currentString.toString().length() > result.length() && isPalindrome(currentString.toString())) {
-                    result = currentString.toString();
+        for (int lstart = 0; lstart < s.length() && s.length() - lstart > result.length(); lstart++) {
+            int left = lstart;
+            for (int rstart = s.length() - 1; rstart >= lstart; rstart--) {
+                int right = rstart;
+
+                while (left <= right && s.charAt(left) == s.charAt(right)) {
+                    if (left == right)
+                        flag = true;
+                    currentString.append(s.charAt(left++));
+                    right--;
+                }
+                if (left > right) {
+                    break;
+                } else {
+                    currentString.setLength(0);
+                    left = lstart;
                 }
             }
-            currentString = new StringBuilder();
+
+            if (!flag) {
+                StringBuilder helper = new StringBuilder(currentString);
+                helper.append(currentString.reverse());
+                result = helper.toString().length() > result.length() ? helper.toString() : result;
+            } else {
+                StringBuilder helper = new StringBuilder(currentString);
+                helper.append(currentString.reverse(), 1, currentString.length());
+                result = helper.toString().length() > result.length() ? helper.toString() : result;
+            }
+            currentString.setLength(0);
+            flag = false;
         }
 
         return result;

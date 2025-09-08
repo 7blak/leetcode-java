@@ -48,4 +48,14 @@ class SolutionTest {
 
         assertThat(result).isEqualTo("bb");
     }
+
+    @Test
+    @DisplayName("Example 3: s = \"bacabab\" --> \"bacab\"")
+    void test3() {
+        String s = "bacabab";
+
+        String result = solution.longestPalindrome(s);
+
+        assertThat(result).isEqualTo("bacab");
+    }
 }
