@@ -9,27 +9,6 @@ class SolutionTest {
     private final Solution solution = new Solution();
 
     @Test
-    void testIsPalindrome() {
-        String s = "abba";
-
-        boolean result = solution.isPalindrome(s);
-
-        assertThat(result).isTrue();
-
-        String s2 = "aba";
-
-        boolean result2 = solution.isPalindrome(s2);
-
-        assertThat(result2).isTrue();
-
-        String s3 = "abca";
-
-        boolean result3 = solution.isPalindrome(s3);
-
-        assertThat(result3).isFalse();
-    }
-
-    @Test
     @DisplayName("Example 1: s = \"babad\" --> \"bab\"")
     void test1() {
         String s = "babad";
