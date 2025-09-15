@@ -7,54 +7,35 @@ package p0005_longest_palindromic_substring;
  */
 public class Solution {
     public String longestPalindrome(String s) {
-        StringBuilder currentString = new StringBuilder();
-        String result = "";
-        boolean flag = false;
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        int[] result = new int[] {0, 0};
 
-        for (int lstart = 0; lstart < s.length() && s.length() - lstart > result.length(); lstart++) {
-            int left = lstart;
-            for (int rstart = s.length() - 1; rstart >= lstart; rstart--) {
-                int right = rstart;
-
-                while (left <= right && s.charAt(left) == s.charAt(right)) {
-                    if (left == right)
-                        flag = true;
-                    currentString.append(s.charAt(left++));
-                    right--;
-                }
-                if (left > right) {
-                    break;
-                } else {
-                    currentString.setLength(0);
-                    left = lstart;
-                }
-            }
-
-            if (!flag) {
-                StringBuilder helper = new StringBuilder(currentString);
-                helper.append(currentString.reverse());
-                result = helper.toString().length() > result.length() ? helper.toString() : result;
-            } else {
-                StringBuilder helper = new StringBuilder(currentString);
-                helper.append(currentString.reverse(), 1, currentString.length());
-                result = helper.toString().length() > result.length() ? helper.toString() : result;
-            }
-            currentString.setLength(0);
-            flag = false;
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;
         }
 
-        return result;
-    }
-
-    public boolean isPalindrome(String s) {
-        int left = 0, right = s.length() - 1;
-        while (left <= right) {
-            if (s.charAt(left) != s.charAt(right)) {
-                return false;
+        for (int i = 0; i < n - 1; i++) {
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                dp[i][i + 1] = true;
+                result[0] = i;
+                result[1] = i + 1;
             }
-            left++;
-            right--;
         }
-        return true;
+
+        for (int diff = 2; diff < n; diff++) {
+            for (int i = 0; i < n - diff; i++) {
+                int j = i + diff;
+                if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
+                    dp[i][j] = true;
+                    result[0] = i;
+                    result[1] = j;
+                }
+            }
+        }
+
+        int i = result[0];
+        int j = result[1];
+        return s.substring(i, j + 1);
     }
 }
