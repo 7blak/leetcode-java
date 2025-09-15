@@ -11,6 +11,10 @@ public class Solution {
     public String convert(String s, int numRows) {
         HashMap<Integer, StringBuilder> rowStrings = new HashMap<>();
 
+        if (numRows == 1 || numRows >= s.length()) {
+            return s;
+        }
+
         for (int i = 0; i < numRows; i++) {
             rowStrings.put(i, new StringBuilder());
         }
