@@ -7,34 +7,19 @@ package p0007_reverse_integer;
  */
 public class Solution {
     public int reverse(int x) {
-        int[] limit = {2,1,4,7,4,8,3,6,4,8};
-        boolean isNegative = x < 0;
-        x = isNegative ? -x : x;
-
-        int result = 0, multiplier = 10, counter = 0;
-
-        while (x > 0) {
-            if (counter > 9)
-                return 0;
+        int result = 0;
+        while (x != 0) {
             int num = x % 10;
             x /= 10;
-            if (counter == 9) {
-                int currentIndex = 0;
-                for (int i = limit.length - 1; i >= 0; i--) {
-                    int num2 = (int) (result / Math.pow(10, i - 1)) % 10;
-                    if (num2 > limit[currentIndex]) {
-                        return 0;
-                    } else if (num2 < limit[currentIndex]) {
-                        break;
-                    }
-                    currentIndex++;
-                }
+            if (result > Integer.MAX_VALUE / 10 || (result == Integer.MAX_VALUE / 10 && num > 7)) {
+                return 0;
             }
-            result *= multiplier;
-            result += num;
-            counter++;
+            if (result < Integer.MIN_VALUE / 10 || (result == Integer.MIN_VALUE / 10 && num < -8)) {
+                return 0;
+            }
+            result = result * 10 + num;
         }
 
-        return isNegative ? -result : result;
+        return result;
     }
 }
