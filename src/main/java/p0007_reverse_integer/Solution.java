@@ -18,10 +18,10 @@ public class Solution {
                 return 0;
             int num = x % 10;
             x /= 10;
-            if (counter >= 9) {
-                int checkResult = result, currentIndex = 0;
+            if (counter == 9) {
+                int currentIndex = 0;
                 for (int i = limit.length - 1; i >= 0; i--) {
-                    int num2 = (int) (checkResult / Math.pow(10, i - 1)) % 10;
+                    int num2 = (int) (result / Math.pow(10, i - 1)) % 10;
                     if (num2 > limit[currentIndex]) {
                         return 0;
                     } else if (num2 < limit[currentIndex]) {
