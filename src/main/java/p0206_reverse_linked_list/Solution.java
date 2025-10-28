@@ -1,7 +1,5 @@
 package p0206_reverse_linked_list;
 
-import java.util.Stack;
-
 /**
  * <a href="https://leetcode.com/problems/reverse-linked-list/description/">206. Reverse Linked List</a>
  * <br><br>
