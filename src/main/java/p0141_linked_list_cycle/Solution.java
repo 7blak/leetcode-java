@@ -1,7 +1,5 @@
 package p0141_linked_list_cycle;
 
-import java.util.HashSet;
-
 /**
  * <a href="https://leetcode.com/problems/linked-list-cycle/">141. Linked List Cycle</a>
  * <br><br>
