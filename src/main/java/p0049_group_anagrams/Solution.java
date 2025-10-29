@@ -19,11 +19,11 @@ public class Solution {
             Arrays.sort(chars);
             String key = String.valueOf(chars);
             if (!map.containsKey(key)) {
-                map.put(key, new ArrayList());
+                map.put(key, new ArrayList<>());
             }
             map.get(key).add(s);
         }
 
-        return new ArrayList(map.values());
+        return new ArrayList<>(map.values());
     }
 }
