@@ -9,13 +9,19 @@ import java.util.HashSet;
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        HashSet<ListNode> encountered = new HashSet<>();
-        while (head != null) {
-            if (encountered.contains(head))
-                return true;
-            encountered.add(head);
-            head = head.next;
+        if (head == null || head.next == null) {
+            return false;
         }
-        return false;
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
     }
 }
