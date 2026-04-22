@@ -8,30 +8,23 @@ package p0019_remove_nth_node_from_end_of_list;
 public class Solution {
 
     public ListNode removeNthFromEnd(ListNode Head, int n) {
-        ListNode savedBefore = null, savedAfter = null, current = Head;
-        int count = 0;
+        ListNode dummy = new ListNode(0);
+        dummy.next = Head;
 
-        while (current != null) {
-            if (savedBefore != null && savedAfter != null) {
-                savedBefore = savedBefore.next;
-                savedAfter = savedAfter.next;
-            } else if (count >= n && savedBefore == null) {
-                savedBefore = Head;
-                savedAfter = Head.next.next;
-            }
+        ListNode slow = dummy;
+        ListNode fast = dummy;
 
-            count++;
-            current = current.next;
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
         }
 
-        if (n == 1 && count == 1)
-            return null;
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
 
-        if (savedBefore == null && count > 1)
-            return Head.next;
+        slow.next = slow.next.next;
 
-        savedBefore.next = savedAfter;
-
-        return Head;
+        return dummy.next;
     }
 }
