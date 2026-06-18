@@ -1,5 +1,7 @@
 package p0023_merge_k_sorted_lists;
 
+import java.util.PriorityQueue;
+
 /**
  * <a href="https://leetcode.com/problems/merge-k-sorted-lists/">23. Merge k Sorted Lists</a>
  * <br><br>
@@ -12,44 +14,28 @@ public class Solution {
             return null;
         }
 
-        int currentlyEmpty = 0;
-        boolean isListEmpty = true;
-        for (int i = 0; i < lists.length; i++) {
-            if (lists[i] != null) {
-                isListEmpty = false;
-            } else {
-                currentlyEmpty++;
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);
+
+        for (ListNode node : lists) {
+            if (node != null) {
+                minHeap.add(node);
             }
         }
 
-        if (isListEmpty) {
-            return null;
-        }
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
 
-        ListNode result = new ListNode();
-        ListNode current = result;
+        while (!minHeap.isEmpty()) {
+            ListNode smallest = minHeap.poll();
 
-        while (currentlyEmpty < lists.length) {
-            int currentMin = Integer.MAX_VALUE, arrIndex = -1;
+            current.next = smallest;
+            current = current.next;
 
-            for (int i = 0; i < lists.length; i++) {
-                ListNode currentList = lists[i];
-                if (currentList != null && currentList.val < currentMin) {
-                    currentMin = currentList.val;
-                    arrIndex = i;
-                }
-            }
-
-            if (arrIndex != -1) {
-                current.next = new ListNode(currentMin);
-                current = current.next;
-                lists[arrIndex] = lists[arrIndex].next;
-                if (lists[arrIndex] == null) {
-                    currentlyEmpty++;
-                }
+            if (smallest.next != null) {
+                minHeap.add(smallest.next);
             }
         }
 
-        return result.next;
+        return dummy.next;
     }
 }
