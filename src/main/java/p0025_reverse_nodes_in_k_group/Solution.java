@@ -8,71 +8,44 @@ package p0025_reverse_nodes_in_k_group;
 public class Solution {
 
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (k == 1) {
+        if (head == null || k == 1) {
             return head;
         }
 
-        ListNode prev = new ListNode(0);
-        prev.next = head;
-        ListNode curr = head;
-        ListNode originalHead = prev;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
 
-        while (curr != null) {
-            if (getListLength(curr) < k) {
+        ListNode prevGroupTail = dummy;
+
+        while (true) {
+            ListNode kthNode = getKthNode(prevGroupTail, k);
+
+            if (kthNode == null) {
                 break;
             }
 
-            prev.next = reverseList(curr, k);
-            prev = advanceKNodes(prev, k);
-            curr = curr.next;
+            ListNode nextGroupHead = kthNode.next;
+
+            ListNode curr = prevGroupTail.next;
+            ListNode prev = nextGroupHead;
+
+            while (curr != nextGroupHead) {
+                ListNode nextNode = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = nextNode;
+            }
+
+            ListNode tailOfReversedGroup = prevGroupTail.next;
+            prevGroupTail.next = kthNode;
+            prevGroupTail = tailOfReversedGroup;
         }
 
-        return originalHead.next;
+        return dummy.next;
     }
 
-    private ListNode reverseList(ListNode head, int k) {
-        if (head == null) {
-            return null;
-        }
-
-        if (k == 1) {
-            return head;
-        }
-
-        int counter = 0;
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode next;
-
-        while (counter < k) {
-            next = curr.next;
-            curr.next = prev;
-
-            prev = curr;
-            curr = next;
-            counter++;
-        }
-
-        advanceKNodes(prev, k - 1).next = curr;
-
-        return prev;
-    }
-
-    private int getListLength(ListNode head) {
-        int length = 0;
-        while (head != null) {
-            length++;
-            head = head.next;
-        }
-
-        return length;
-    }
-
-    private ListNode advanceKNodes(ListNode head, int k) {
-        int counter = 0;
-        ListNode curr = head;
-
-        while (counter++ < k && curr != null) {
+    private ListNode getKthNode(ListNode curr, int k) {
+        while (curr != null && k-- > 0) {
             curr = curr.next;
         }
 
